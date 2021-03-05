@@ -1,0 +1,18 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+api_login:
+  path: /api/login
+  methods: ['POST']
+addingCompte:
+  path: /api/compte
+  controller: App\Controller\CompteController::addCompte
+addingDepot:
+  path: /api/depot
+  controller: App\Controller\DepotController::addDepot
+annulerDepot:
+  path: /api/depots/{id}
+  controller: App\Controller\DepotController::deleteDepot
+creerTransaction:
+  path: /api/transac
+  controller: App\Controller\TransactionController::creerTransaction

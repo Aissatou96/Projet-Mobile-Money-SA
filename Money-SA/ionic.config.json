@@ -1,0 +1,7 @@
+{
+  "name": "Money-SA",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
