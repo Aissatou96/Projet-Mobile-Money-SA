@@ -7,10 +7,7 @@ const routes: Routes = [
     redirectTo: 'accueil',
     pathMatch: 'full'
   },
-  {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },
+  
   {
     path: 'admin',
     loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
@@ -34,6 +31,22 @@ const routes: Routes = [
   {
     path: 'commissions',
     loadChildren: () => import('./pages/commissions/commissions.module').then( m => m.CommissionsPageModule)
+  },
+  {
+    path: 'depot',
+    loadChildren: () => import('./pages/depot/depot.module').then( m => m.DepotPageModule)
+  },
+  {
+    path: 'retrait',
+    loadChildren: () => import('./pages/retrait/retrait.module').then( m => m.RetraitPageModule)
+  },
+  {
+    path: 'calculateur',
+    loadChildren: () => import('./pages/calculateur/calculateur.module').then( m => m.CalculateurPageModule)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
   },
 
 ];

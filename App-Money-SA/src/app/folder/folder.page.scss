@@ -25,4 +25,16 @@ ion-menu-button {
 
 #container a {
   text-decoration: none;
+
+}
+
+ion-content{
+  ion-list{
+    ion-item{
+      a{
+        text-decoration: none;
+        color:red;
+      }
+    }
+  }
 }

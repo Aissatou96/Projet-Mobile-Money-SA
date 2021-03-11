@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {AuthenticationService} from '../../services/authentication.service';
-import {TokenService} from '../../services/token.service';
-import jwt_decode from "jwt-decode";
+import { AlertController, LoadingController } from '@ionic/angular';
 
 
 @Component({
@@ -17,48 +16,50 @@ export class LoginPage implements OnInit {
   token: any;
 
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private authService: AuthenticationService,
-    private router: Router,
-    private tokenService: TokenService
-  ) { }
+    private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController
+  ) {}
 
   ngOnInit() {
     this.credentials = this.fb.group({
-      telephone: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
-    this.credentials.patchValue({
-      telephone: '+33 3 51 44 16 83',
-      password:'passer123'
+      telephone: ['+33 3 51 44 16 83', [Validators.required, Validators.minLength(9)]],
+      password: ['passer123', [Validators.required, Validators.minLength(6)]],
     });
   }
 
-   login() {
+  async login() {
+    const loading = await this.loadingCtrl.create();
+    await loading.present();
+
     this.authService.login(this.credentials.value).subscribe(
-      (res) => {
-        //this.tokenService.saveToken(res);
-      this.tokenService.getToken().then((result)=>{
-        //console.log(result);
-        this.token = result;
-       let data =jwt_decode(this.token);
-       this.tokenService.SaveInfos(data);
-       if(data['roles'][0] === "ROLE_AdminSystem"){
-         this.router.navigateByUrl('/folder/:id');
-       }
-      })
+      async(res) =>{
+        await loading.dismiss();
+        let role = this.authService.getRole();
+         this.authService.RedirectMe(role);
+
+      }, async(res) =>{
+        console.log(res);
+
+        await loading.dismiss();
+        const alert = await this.alertCtrl.create({
+          header: 'Login failed',
+          message: res.error.error,
+          buttons: ['OK']
+        });
+        await alert.present();
       }
-    );
+    )
   }
 
-  // Easy access for form fields
+
   get telephone() {
     return this.credentials.get('telephone');
   }
-
   get password() {
     return this.credentials.get('password');
   }
-
 
 }
