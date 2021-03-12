@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button>
+        <ion-icon name="home-sharp" class="iconhome"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-thumbnail style="margin: 0 auto; ">
+      <ion-img src="../assets/img/logoSaMoney.jpeg" alt="logoSAMoney"></ion-img>
+    </ion-thumbnail>
+    <div class="depot">
+      <p>Dépôt</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment>
+    <ion-segment-button (click)="next()">
+      <ion-label>Emetteur</ion-label>
+    </ion-segment-button>
+    <ion-segment-button (click)="previous()">
+      <ion-label>Bénéficiaire</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <form [formGroup]="depot" (ngSubmit)="deposer()" >
+    <section *ngIf="visible" >
+      <ion-list formGroupName="clientEnvois">
+        <ion-item>
+          <ion-label position="floating">CNI</ion-label>
+          <ion-input type="text" formControlName="cni"></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label position="floating">Nom</ion-label>
+          <ion-input type="text" formControlName="lastName"></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label position="floating">Prénom</ion-label>
+          <ion-input type="text" formControlName="firstName" ></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label position="floating">Téléphone</ion-label>
+          <ion-input type="number" formControlName="phone" ></ion-input>
+        </ion-item>
+
+      </ion-list>
+
+      <ion-item>
+        <ion-label position="floating">Montant</ion-label>
+        <ion-input type="number" formControlName="montant"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label position="floating">Frais</ion-label>
+        <ion-input type="number" disabled></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label position="floating">Total</ion-label>
+        <ion-input type="number"  disabled></ion-input>
+      </ion-item>
+    </section>
+    <section *ngIf="!visible" formGroupName="clientRetraits">
+
+
+
+      <ion-item>
+        <ion-label position="floating">Nom</ion-label>
+        <ion-input type="text" formControlName="lastName"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label position="floating">Prénom</ion-label>
+        <ion-input type="text" formControlName="firstName" ></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label position="floating">Téléphone</ion-label>
+        <ion-input type="number" formControlName="phone"></ion-input>
+      </ion-item>
+    </section>
+
+    <ion-button type="submit" [disabled]="!depot.valid" expand="block">Suivant</ion-button>
+
+  </form>
+
+</ion-content>
