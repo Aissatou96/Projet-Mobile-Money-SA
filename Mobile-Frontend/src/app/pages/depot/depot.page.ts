@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Client, Transaction} from '../../../model/Transaction';
-import {AlertController, LoadingController} from '@ionic/angular';
+import {AlertController, LoadingController, ToastController} from '@ionic/angular';
+import {TransactionService} from '../../services/transaction.service';
+import {dashCaseToCamelCase} from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-depot',
@@ -12,7 +14,16 @@ export class DepotPage implements OnInit {
   visible = true;
   depot: FormGroup;
   mytransaction: Transaction;
-  constructor(private fb: FormBuilder, private alertController: AlertController, private loadingController: LoadingController) {
+   frais = '';
+   total = '';
+  constructor(
+    private fb: FormBuilder,
+    private alertController: AlertController,
+    private loadingController: LoadingController,
+    private transaction: TransactionService,
+    private toastCtrl: ToastController
+  )
+  {
     this.mytransaction = {} as Transaction;
     this.mytransaction.clientRetraits = {} as Client;
     this.mytransaction.clientEnvois = {} as Client;
@@ -21,16 +32,16 @@ export class DepotPage implements OnInit {
 
   ngOnInit() {
     this.depot = this.fb.group({
-      montant: new FormControl('10000', Validators.required),
+      montant: new FormControl('', Validators.required),
       clientEnvois: this.fb.group({
           cni: new FormControl('12458258648', Validators.required),
-          lastName: new FormControl('Dione', Validators.required),
-          firstName: new FormControl('Assane', Validators.required),
+          lastname: new FormControl('Dione', Validators.required),
+          firstname: new FormControl('Assane', Validators.required),
           phone: new FormControl('766540364', Validators.required),
         }),
       clientRetraits: this.fb.group({
-          lastName: new FormControl('Cissé', Validators.required),
-          firstName: new FormControl('Aissatou', Validators.required),
+          lastname: new FormControl('Cissé', Validators.required),
+          firstname: new FormControl('Aissatou', Validators.required),
           phone: new FormControl('786325494', Validators.required),
         })
 
@@ -52,7 +63,16 @@ export class DepotPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Confirmation',
-      message: 'Voulez vous continuer la transaction !',
+      message: `<div class="infos">
+                Emetteur<br><p>${this.mytransaction.clientEnvois.lastname} ${this.mytransaction.clientEnvois.firstname}</p> <br>
+                Téléphone<br><p>${this.mytransaction.clientEnvois.phone}</p> <br>
+                N°CNI<br><p>${this.mytransaction.clientEnvois.cni}</p> <br>
+                Récepteur<br><p>${this.mytransaction.clientRetraits.lastname} ${this.mytransaction.clientRetraits.firstname}</p> <br>
+                Montant<br><p>${this.mytransaction.montant}</p> <br>
+                Téléphone<br><p>${this.mytransaction.clientRetraits.phone}</p> <br>
+
+              </div>
+              `,
       buttons: [
         {
           text: 'Annuler',
@@ -67,10 +87,28 @@ export class DepotPage implements OnInit {
               message: 'Please wait...',
             });
             await loading.present();
-            console.log('Confirm Okay');
-            setTimeout(() => {
-              loading.dismiss();
-            }, 2000);
+            console.log(this.mytransaction);
+            this.transaction.addTransaction(this.mytransaction).subscribe(
+              async (data) => {
+                await loading.dismiss();
+                const toast = await this.toastCtrl.create({
+                  message: 'Succès.',
+                  position: 'middle',
+                  duration: 2000
+                });
+                await toast.present();
+              },
+              async (error) => {
+                console.log(error);
+                const toast = await this.toastCtrl.create({
+                  message: 'Your settings have been saved.',
+                  position: 'middle',
+                  cssClass: 'error',
+                  duration: 2000
+                });
+                await toast.present();
+              }
+            );
           }
         }
       ]
@@ -80,4 +118,18 @@ export class DepotPage implements OnInit {
 
   }
 
+  async calculer() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+    });
+    await loading.present();
+    this.transaction.calculerFrais(this.depot.value).subscribe(
+      async (data) => {
+        await loading.dismiss();
+        this.frais = data.Frais;
+        this.total = this.depot.value.montant + this.frais;
+      }
+    );
+  }
 }
+

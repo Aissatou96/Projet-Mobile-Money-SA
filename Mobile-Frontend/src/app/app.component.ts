@@ -16,7 +16,6 @@ export class AppComponent {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event && event.url) {
         this.selectedPath = event.url;
-        console.log(this.selectedPath);
       }
     });
   }
@@ -25,6 +24,5 @@ export class AppComponent {
 
   onItemClick(url: string) {
     this.router.navigate([url]);
-    console.log(url);
   }
 }

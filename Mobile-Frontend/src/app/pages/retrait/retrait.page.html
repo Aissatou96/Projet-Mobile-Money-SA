@@ -14,7 +14,6 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
   <ion-grid fixed>
     <ion-row>
@@ -23,7 +22,7 @@
           <section>
             <ion-item>
               <ion-label position="floating">Code</ion-label>
-              <ion-input type="text" class="form-control" formControlName="code" (change)="Recherche()"></ion-input>
+              <ion-input type="text" class="form-control" formControlName="code" (change)="Rechercher()"></ion-input>
             </ion-item>
           </section>
           <ion-item class="type">
@@ -43,7 +42,7 @@
             </ion-item>
             <ion-item>
               <ion-label position="floating">Nom & Prénom</ion-label>
-              <ion-input type="text" [value]="nomEmetteur" disabled class="form-control"></ion-input>
+              <ion-input type="text" [value]="clientRetrait?.nom" disabled class="form-control"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="floating">Montant à Recevoir</ion-label>
@@ -51,7 +50,7 @@
             </ion-item>
             <ion-item>
               <ion-label position="floating">Téléphone</ion-label>
-              <ion-input type="text" disabled class="form-control" [value]="clientRetrait.telephone"></ion-input>
+              <ion-input type="text" disabled class="form-control" [value]="clientRetrait?.phone"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="floating">Date D'envoi</ion-label>
@@ -66,7 +65,7 @@
             </ion-item>
             <ion-item>
               <ion-label position="floating">Nom & Prénom</ion-label>
-              <ion-input type="text" [value]="nomRecepteur" disabled class="form-control"></ion-input>
+              <ion-input type="text" [value]="clientEnvoi?.nom" disabled class="form-control"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="floating">Montant ENVOYE</ion-label>

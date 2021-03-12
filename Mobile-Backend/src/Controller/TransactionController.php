@@ -203,4 +203,33 @@ class TransactionController extends AbstractController
        $this->manager->flush();
        return  $this->json(['message'=> 'Transaction effectuée avec succès!'], Response::HTTP_CREATED);
     }
+
+    public function calculerFrais(Request $request){
+        $data = json_decode($request->getContent(), true);
+        $frais = 0;
+        if($data['montant'] > 0){
+            $frais = $this->calculFraisService->calculerFrais($data['montant']);
+            
+        }
+        return  $this->json(['Frais'=> $frais],200);
+    }
+
+    public function getTransac(Request $request){
+        $data = json_decode($request->getContent(), true);
+        $result = array();
+        if (!empty($data['code'])) {
+           $transaction = $this->transactionRepository->findOneBy(['code' => $data['code']]);
+            $clientEnvoi = $this->clientRepository->findOneBy(['id'=>$transaction->getClientEnvoi()->getId()]);
+            $clientRetrait= $this->clientRepository->findOneBy(['id'=>$transaction->getClientRetrait()->getId()]);
+            $result['montant'] = $transaction->getMontant();
+            $result['dateEnvoi'] = $transaction->getDateDepot();
+            $result['clientEnvoi']['nom'] = $clientEnvoi->getLastname() ." ".$clientEnvoi->getFirstname();
+            $result['clientEnvoi']['cni'] = $clientEnvoi->getCni();
+            $result['clientEnvoi']['phone'] = $clientEnvoi->getPhone();
+
+            $result['clientRetrait']['nom'] = $clientRetrait->getLastname() ." ".$clientRetrait->getFirstname();
+            $result['clientRetrait']['phone'] = $clientRetrait->getPhone();
+        }
+        return  $this->json(['transaction'=> $result],200);
+    }
 }

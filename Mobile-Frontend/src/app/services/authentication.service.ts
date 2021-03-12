@@ -16,13 +16,14 @@ const TOKEN_KEY = 'my-token';
 export class AuthenticationService {
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   token = '';
-  myToken='';
-  myRole='';
+  myToken = '';
+  myRole = '';
   decoded: any;
   url = 'http://127.0.0.1:8000/api';
   constructor(private http: HttpClient, private router: Router) {
     this.loadToken();
   }
+  //Vérifier si l'user est déjà connecté ou pas
   async loadToken(){
     const token = await Storage.get({key: TOKEN_KEY});
     if (token && token.value){
@@ -35,13 +36,14 @@ export class AuthenticationService {
   loggedIn(){
     return !! Storage.get({key: TOKEN_KEY});
   }
-  login(credentials: {telephone,password}): Observable<any>{
+  // login
+  login(credentials: {telephone, password}): Observable<any>{
     return this.http.post('http://127.0.0.1:8000/api/login', credentials).pipe(
       map((data: any) => data.token),
       switchMap(token =>{
         return from(this.InfosSave(token));
       }),
-      tap(_=> {
+      tap(_ => {
         this.isAuthenticated.next(true);
       })
     )
@@ -65,12 +67,8 @@ export class AuthenticationService {
   }
 
   RedirectMe(role: string){
-    if(role === "ROLE_AdminSystem"){
+    if (role){
       this.router.navigateByUrl('/admin-system');
-    }else if(role === "ROLE_AdminAgence" ){
-      this.router.navigateByUrl('/transaction', { replaceUrl: true});
-    }else if(role === "Caissier" ){
-
     }
   }
 

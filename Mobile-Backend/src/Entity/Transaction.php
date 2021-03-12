@@ -25,7 +25,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                                      "method"="GET",
  *                                      "path"="/transac",
  *                                      "normalization_context"= {"groups"= {"transac_read"}}
- *                                    }
+ *                                    },
+ *                          
+ *                           "calculerFrais"={
+ *                                      "method"="POST",
+ *                                      "path"="/transac/calcul",
+ *                                      "route_name":"calculerFrais",
+ *                                      "denormalization_context"= {"groups"= {"transac_write"}}
+ *                                    },
+ * 
+ *                          "getCode"={
+ *                                      "method"="POST",
+ *                                      "path"="/transac/recup",
+ *                                      "route_name":"getTransac"
+ *                                    },
  *                       },
  * 
  *  itemOperations={

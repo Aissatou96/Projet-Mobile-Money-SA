@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Transaction} from '../../../model/Transaction';
-import {AlertController, LoadingController} from '@ionic/angular';
+import {AlertController, LoadingController, ToastController} from '@ionic/angular';
+import {TransactionService} from '../../services/transaction.service';
 
 @Component({
   selector: 'app-retrait',
@@ -10,7 +11,6 @@ import {AlertController, LoadingController} from '@ionic/angular';
 })
 export class RetraitPage implements OnInit {
   clientEnvoi: any = [];
-  nomRecepteur = '';
   montant = '';
   dateEnvoi = '';
    visible = true;
@@ -18,7 +18,11 @@ export class RetraitPage implements OnInit {
   nomEmetteur = '';
   clientRetrait: any = [];
 
-  constructor(private fb: FormBuilder, private alertController: AlertController, private loadingController: LoadingController) {
+  constructor(private fb: FormBuilder, private alertController: AlertController,
+              private loadingController: LoadingController,
+              private transaction: TransactionService,
+              private toastCtrl: ToastController
+              ) {
   }
 
   ngOnInit() {
@@ -67,7 +71,20 @@ export class RetraitPage implements OnInit {
     this.visible = false;
   }
 
-  Recherche() {
-    console.log('tu recherche si le code est cool:', this.credentials.value);
+  async Rechercher() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+    });
+    await loading.present();
+    this.transaction.getTransaction(this.credentials.value).subscribe(
+      async (data) => {
+        this.clientEnvoi= data.transaction.clientEnvoi;
+        this.clientRetrait = data.transaction.clientRetrait;
+        this.dateEnvoi = data.transaction.dateEnvoi;
+        this.montant = data.transaction.montant;
+        await loading.dismiss();
+        console.log(data);
+      }
+    );
   }
 }

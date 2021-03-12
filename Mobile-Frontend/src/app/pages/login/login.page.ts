@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.credentials = this.fb.group({
-      telephone: ['+33 3 51 44 16 83', [Validators.required, Validators.minLength(9)]],
+      telephone: ['01 52 50 08 59', [Validators.required, Validators.minLength(9)]],
       password: ['passer123', [Validators.required, Validators.minLength(6)]],
     });
   }
@@ -39,7 +39,6 @@ export class LoginPage implements OnInit {
         this.authService.RedirectMe(role);
 
       }, async (res) =>{
-        console.log(res);
 
         await loading.dismiss();
         const alert = await this.alertCtrl.create({

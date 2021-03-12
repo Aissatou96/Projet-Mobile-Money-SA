@@ -35,13 +35,13 @@
 
         <ion-item>
           <ion-label position="floating">Nom</ion-label>
-          <ion-input type="text" formControlName="lastName"></ion-input>
+          <ion-input type="text" formControlName="lastname"></ion-input>
         </ion-item>
 
 
         <ion-item>
           <ion-label position="floating">Prénom</ion-label>
-          <ion-input type="text" formControlName="firstName" ></ion-input>
+          <ion-input type="text" formControlName="firstname" ></ion-input>
         </ion-item>
 
 
@@ -54,19 +54,19 @@
 
       <ion-item>
         <ion-label position="floating">Montant</ion-label>
-        <ion-input type="number" formControlName="montant"></ion-input>
+        <ion-input type="number" (change)="calculer()" formControlName="montant"></ion-input>
       </ion-item>
 
 
       <ion-item>
         <ion-label position="floating">Frais</ion-label>
-        <ion-input type="number" disabled></ion-input>
+        <ion-input type="number" [value]="frais" disabled></ion-input>
       </ion-item>
 
 
       <ion-item>
         <ion-label position="floating">Total</ion-label>
-        <ion-input type="number"  disabled></ion-input>
+        <ion-input type="number" [value]="total" disabled></ion-input>
       </ion-item>
     </section>
     <section *ngIf="!visible" formGroupName="clientRetraits">
@@ -75,13 +75,13 @@
 
       <ion-item>
         <ion-label position="floating">Nom</ion-label>
-        <ion-input type="text" formControlName="lastName"></ion-input>
+        <ion-input type="text" formControlName="lastname"></ion-input>
       </ion-item>
 
 
       <ion-item>
         <ion-label position="floating">Prénom</ion-label>
-        <ion-input type="text" formControlName="firstName" ></ion-input>
+        <ion-input type="text" formControlName="firstname" ></ion-input>
       </ion-item>
 
 

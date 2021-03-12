@@ -9,7 +9,7 @@ export interface Transaction{
 
 export interface Client{
   cni: string;
-  lastName: string;
-  firstName: string;
+  lastname: string;
+  firstname: string;
   phone: string;
 }

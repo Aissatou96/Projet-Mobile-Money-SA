@@ -16,3 +16,9 @@ annulerDepot:
 creerTransaction:
   path: /api/transac
   controller: App\Controller\TransactionController::creerTransaction
+calculerFrais:
+  path: /api/transac/calcul
+  controller: App\Controller\TransactionController::calculerFrais
+getCode:
+  path: /api/transac/recup
+  controller: App\Controller\TransactionController::getTransac
