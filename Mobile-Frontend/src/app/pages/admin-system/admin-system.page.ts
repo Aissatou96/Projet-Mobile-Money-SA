@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {PagesAdmin} from '../../utils/pagesUrl';
+import {PagesAdmin, PagesUser} from '../../utils/pagesUrl';
 import {Router} from '@angular/router';
+import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   selector: 'app-admin-system',
@@ -8,10 +9,14 @@ import {Router} from '@angular/router';
   styleUrls: ['./admin-system.page.scss'],
 })
 export class AdminSystemPage implements OnInit {
-pages: any = [];
-  today: Date = new Date();
-  constructor(private router: Router) {
-    this.pages = PagesAdmin;
+pagesA: any = [];
+pagesU: any = [];
+today: Date = new Date();
+role: string;
+  constructor(private router: Router, authService: AuthenticationService) {
+    this.pagesA = PagesAdmin;
+    this.pagesU = PagesUser;
+    this.role = authService.getRole();
   }
 
   ngOnInit() {

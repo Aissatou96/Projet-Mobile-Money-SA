@@ -31,14 +31,13 @@ export class LoginPage implements OnInit {
   async login() {
     const loading = await this.loadingCtrl.create();
     await loading.present();
-
     this.authService.login(this.credentials.value).subscribe(
-      async(res) =>{
+      async (res) => {
         await loading.dismiss();
         const role = this.authService.getRole();
-        this.authService.RedirectMe(role);
+        this.authService.redirectToMe(role);
 
-      }, async (res) =>{
+      }, async (res) => {
 
         await loading.dismiss();
         const alert = await this.alertCtrl.create({
@@ -48,7 +47,7 @@ export class LoginPage implements OnInit {
         });
         await alert.present();
       }
-    )
+    );
   }
 
 

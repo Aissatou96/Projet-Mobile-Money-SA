@@ -1,4 +1,4 @@
-export const pages: any = [
+export const menuAdmin: any = [
   {
     title: 'Home',
     tabName: 'admin-system',
@@ -22,7 +22,27 @@ export const pages: any = [
     tabName: 'calculator',
     url: '/tabs-admin/calculator',
     iconName: 'calculator-outline',
+  }
+];
+export const menuUser: any = [
+  {
+    title: 'Home',
+    tabName: 'admin-system',
+    url: '/tabs-admin/admin-system',
+    iconName: 'home-outline',
   },
+  {
+    title: 'Transaction',
+    tabName: 'transaction',
+    url: '/tabs-admin/transaction',
+    iconName: 'timer-outline',
+  },
+  {
+    title: 'Calculator',
+    tabName: 'calculator',
+    url: '/tabs-admin/calculator',
+    iconName: 'calculator-outline',
+  }
 ];
 
 export const PagesAdmin: any = [
@@ -55,6 +75,33 @@ export const PagesAdmin: any = [
     tabName: 'commission',
     url: '/commission',
     iconName: 'apps-outline',
+  },
+  {
+    title: 'Calculator',
+    tabName: 'calculator',
+    url: '/calculator',
+    iconName: 'calculator-outline',
+  },
+];
+
+export const PagesUser: any = [
+  {
+    title: 'Dépot',
+    tabName: 'depot',
+    url: '/depot',
+    iconName: 'return-up-forward-outline',
+  },
+  {
+    title: 'Retrait',
+    tabName: 'retrait',
+    url: '/retrait',
+    iconName: 'return-up-back-outline',
+  },
+  {
+    title: 'Mes transactions',
+    tabName: 'transaction',
+    url: '/transaction',
+    iconName: 'timer-outline',
   },
   {
     title: 'Calculator',

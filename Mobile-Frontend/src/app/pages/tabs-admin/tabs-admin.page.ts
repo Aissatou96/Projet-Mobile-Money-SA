@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { pages } from '../../utils/pagesUrl';
+import { menuAdmin } from '../../utils/pagesUrl';
 @Component({
   selector: 'app-tabs-admin',
   templateUrl: './tabs-admin.page.html',
@@ -8,7 +8,7 @@ import { pages } from '../../utils/pagesUrl';
 export class TabsAdminPage implements OnInit {
   pages: any = [];
   constructor() {
-    this.pages = pages;
+    this.pages = menuAdmin;
   }
 
   ngOnInit() {}

@@ -31,60 +31,43 @@
           <ion-label position="floating">CNI</ion-label>
           <ion-input type="text" formControlName="cni"></ion-input>
         </ion-item>
-
-
         <ion-item>
           <ion-label position="floating">Nom</ion-label>
           <ion-input type="text" formControlName="lastname"></ion-input>
         </ion-item>
-
-
         <ion-item>
           <ion-label position="floating">Prénom</ion-label>
           <ion-input type="text" formControlName="firstname" ></ion-input>
         </ion-item>
-
-
         <ion-item>
           <ion-label position="floating">Téléphone</ion-label>
           <ion-input type="number" formControlName="phone" ></ion-input>
         </ion-item>
-
       </ion-list>
 
       <ion-item>
         <ion-label position="floating">Montant</ion-label>
         <ion-input type="number" (change)="calculer()" formControlName="montant"></ion-input>
       </ion-item>
-
-
       <ion-item>
         <ion-label position="floating">Frais</ion-label>
         <ion-input type="number" [value]="frais" disabled></ion-input>
       </ion-item>
-
-
       <ion-item>
         <ion-label position="floating">Total</ion-label>
         <ion-input type="number" [value]="total" disabled></ion-input>
       </ion-item>
     </section>
+
     <section *ngIf="!visible" formGroupName="clientRetraits">
-
-
-
       <ion-item>
         <ion-label position="floating">Nom</ion-label>
         <ion-input type="text" formControlName="lastname"></ion-input>
       </ion-item>
-
-
       <ion-item>
         <ion-label position="floating">Prénom</ion-label>
         <ion-input type="text" formControlName="firstname" ></ion-input>
       </ion-item>
-
-
       <ion-item>
         <ion-label position="floating">Téléphone</ion-label>
         <ion-input type="number" formControlName="phone"></ion-input>

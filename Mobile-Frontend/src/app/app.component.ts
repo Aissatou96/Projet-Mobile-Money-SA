@@ -1,18 +1,22 @@
 import { Component } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
-import { pages } from './utils/pagesUrl';
+import {menuAdmin, menuUser} from './utils/pagesUrl';
+import {AuthenticationService} from './services/authentication.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  pages: any = [];
-
+  pagesA: any = [];
+  pagesU: any = [];
+  role: string;
   public selectedPath = '';
 
-  constructor(private router: Router) {
-    this.pages = pages;
+  constructor(private router: Router, authSercvice: AuthenticationService) {
+    this.pagesA = menuAdmin;
+    this.pagesU = menuUser;
+    this.role = authSercvice.getRole();
     this.router.events.subscribe((event: RouterEvent) => {
       if (event && event.url) {
         this.selectedPath = event.url;
@@ -20,7 +24,6 @@ export class AppComponent {
     });
   }
 
-  ngOnInit() {}
 
   onItemClick(url: string) {
     this.router.navigate([url]);

@@ -20,10 +20,11 @@ export class AuthenticationService {
   myRole = '';
   decoded: any;
   url = 'http://127.0.0.1:8000/api';
+
   constructor(private http: HttpClient, private router: Router) {
     this.loadToken();
   }
-  //Vérifier si l'user est déjà connecté ou pas
+  //Vérifier si l'user est déjà connecté ou pas?
   async loadToken(){
     const token = await Storage.get({key: TOKEN_KEY});
     if (token && token.value){
@@ -40,13 +41,13 @@ export class AuthenticationService {
   login(credentials: {telephone, password}): Observable<any>{
     return this.http.post('http://127.0.0.1:8000/api/login', credentials).pipe(
       map((data: any) => data.token),
-      switchMap(token =>{
+      switchMap(token => {
         return from(this.InfosSave(token));
       }),
       tap(_ => {
         this.isAuthenticated.next(true);
       })
-    )
+    );
   }
 
   async InfosSave(token){
@@ -66,7 +67,7 @@ export class AuthenticationService {
     return this.myRole;
   }
 
-  RedirectMe(role: string){
+  redirectToMe(role: string){
     if (role){
       this.router.navigateByUrl('/admin-system');
     }

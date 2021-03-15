@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Client, Transaction} from '../../../model/Transaction';
 import {AlertController, LoadingController, ToastController} from '@ionic/angular';
 import {TransactionService} from '../../services/transaction.service';
-import {dashCaseToCamelCase} from '@angular/compiler/src/util';
+
 
 @Component({
   selector: 'app-depot',
@@ -34,15 +34,15 @@ export class DepotPage implements OnInit {
     this.depot = this.fb.group({
       montant: new FormControl('', Validators.required),
       clientEnvois: this.fb.group({
-          cni: new FormControl('12458258648', Validators.required),
-          lastname: new FormControl('Dione', Validators.required),
-          firstname: new FormControl('Assane', Validators.required),
-          phone: new FormControl('766540364', Validators.required),
+          cni: new FormControl('', Validators.required),
+          lastname: new FormControl('', Validators.required),
+          firstname: new FormControl('', Validators.required),
+          phone: new FormControl('', Validators.required),
         }),
       clientRetraits: this.fb.group({
-          lastname: new FormControl('Cissé', Validators.required),
-          firstname: new FormControl('Aissatou', Validators.required),
-          phone: new FormControl('786325494', Validators.required),
+          lastname: new FormControl('', Validators.required),
+          firstname: new FormControl('', Validators.required),
+          phone: new FormControl('', Validators.required),
         })
 
     });
@@ -78,7 +78,7 @@ export class DepotPage implements OnInit {
           text: 'Annuler',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: (blah) => {
+          handler: () => {
           }
         }, {
           text: 'Confirmer',

@@ -15,17 +15,17 @@
 </ion-header>
 
 <ion-content>
-  <form action="">
+  <form [formGroup]="calculator" (ngSubmit)="afficherFrais()" >
     <ion-item>
       <ion-label position="floating">Type de transaction</ion-label>
-      <ion-input></ion-input>
+      <ion-input type="text" formControlName="depot"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Montant</ion-label>
-      <ion-input></ion-input>
+      <ion-input type="number" formControlName="montant"></ion-input>
     </ion-item>
 
-    <ion-button slot="end" expand="full">Calculer</ion-button>
+    <ion-button type="submit" slot="end" expand="full" [disabled]="!calculator.valid">Calculer</ion-button>
   </form>
 </ion-content>
