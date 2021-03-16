@@ -26,6 +26,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                                      "method"="GET",
  *                                      "path"="/comptes",
  *                                      "normalization_context"= {"groups"= {"comptes_read"}}
+ *                                    },
+ *                          "getSolde"={
+ *                                      "method"="GET",
+ *                                      "path"="/comptes/solde"
  *                                    }
  *                       },
  * 
@@ -35,6 +39,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                                  "path"="/comptes/{id}",
  *                                  "normalization_context"= {"groups"= {"one_compte_read"}}
  *                               },
+ *
  * 
  *                      "updateCompte"={
  *                                  "method"="PUT",

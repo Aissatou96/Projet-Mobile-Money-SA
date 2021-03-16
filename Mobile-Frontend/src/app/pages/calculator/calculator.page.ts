@@ -15,7 +15,7 @@ export class CalculatorPage implements OnInit {
     private fb: FormBuilder,
     private alertController: AlertController,
     private transaction: TransactionService,
-    private loadingController: LoadingController
+    private loadingCrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -25,33 +25,31 @@ export class CalculatorPage implements OnInit {
     });
   }
 
-  async calculerFrais(){
-    const loading = await this.loadingController.create();
-    await loading.present();
-    this.transaction.calculerFrais(this.calculator.value.montant).subscribe(
-        async (data) => {
-          await  loading.dismiss();
-        }
-    );
-  }
-
-
   async afficherFrais() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Calculateur',
-      /*message: `
-                  Pour une transaction de ${this.calculator.value.montant}, le frais est ègal à: ${this.calculator.value.frais}
-                `,*/
-      buttons: [
-        {
-          text: 'Retour',
-          role: 'cancel',
-          cssClass: 'secondary'
-        }
-      ]
-    });
+    const loading = await this.loadingCrl.create({});
+    await loading.present();
+    this.transaction.calculerFrais(this.calculator.value).subscribe(
+      async (data) => {
+        await loading.dismiss();
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: 'Calculateur',
+          message: `
+                  Pour une transaction de ${this.calculator.value.montant}
+                  ,le frais est ègal à: ${data.Frais}
+                `,
+          buttons: [
+            {
+              text: 'Retour',
+              role: 'cancel',
+              cssClass: 'secondary'
+            }
+          ]
+        });
 
-    await alert.present();
+        await alert.present();
+      }
+    );
+
   }
 }

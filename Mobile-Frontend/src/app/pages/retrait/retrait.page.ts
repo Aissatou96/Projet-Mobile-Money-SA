@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Transaction} from '../../../model/Transaction';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Client, Transaction} from '../../../model/Transaction';
 import {AlertController, LoadingController, ToastController} from '@ionic/angular';
 import {TransactionService} from '../../services/transaction.service';
 
@@ -11,10 +11,11 @@ import {TransactionService} from '../../services/transaction.service';
 })
 export class RetraitPage implements OnInit {
   clientEnvoi: any = [];
+  mytransaction: Transaction;
   montant = '';
   dateEnvoi = '';
-   visible = true;
-  credentials: FormGroup;
+  visible = true;
+  retrait: FormGroup;
   nomEmetteur = '';
   clientRetrait: any = [];
 
@@ -23,10 +24,13 @@ export class RetraitPage implements OnInit {
               private transaction: TransactionService,
               private toastCtrl: ToastController
               ) {
-  }
+                  this.mytransaction = {} as Transaction;
+                  this.mytransaction.clientRetraits = {} as Client;
+                  this.mytransaction.clientEnvois = {} as Client;
+                }
 
   ngOnInit() {
-    this.credentials = this.fb.group({
+    this.retrait = this.fb.group({
       code: ['', [Validators.required, Validators.minLength(5)]],
       cni: ['', [Validators.required, Validators.minLength(5)]],
       type: ['retrait', [Validators.required, Validators.minLength(5)]]
@@ -34,10 +38,21 @@ export class RetraitPage implements OnInit {
   }
 
   async retirer() {
+    console.log(this.retrait.value);
+
     const smg = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Confirmation',
-      message: 'Voulez vous continuer la transaction !',
+      message: `
+               <div class="infos">
+                BENEFICIAIRE<br><p>${this.clientRetrait.nom}  </p><br>
+                TELEPHONE<br><p>${this.clientRetrait.phone}</p><br>
+                N°CNI<br><p>${this.retrait.value.cni}</p><br>
+                MONTANT RECU<br><p>${this.montant}</p><br>
+                EMETTEUR<br><p>${this.clientEnvoi.nom} </p><br>
+                TELEPHONE<br><p>${this.clientEnvoi.phone}</p><br>
+                </div>
+               `,
       buttons: [
         {
           text: 'Annuler',
@@ -52,10 +67,30 @@ export class RetraitPage implements OnInit {
               message: 'Please wait...',
             });
             await loading.present();
-            console.log('Confirm Okay');
-            setTimeout(() => {
-              loading.dismiss();
-            }, 2000);
+            console.log("donne send",this.retrait.value);
+            this.transaction.addTransaction(this.retrait.value).subscribe(
+              async (data) => {
+                console.log(data);
+                await loading.dismiss();
+                const toast = await this.toastCtrl.create({
+                  message: 'Succès.',
+                  position: 'middle',
+                  duration: 2000
+                });
+                await toast.present();
+              },
+              async (error) => {
+
+                await loading.dismiss();
+                const toast = await this.toastCtrl.create({
+                  message: error.error.message,
+                  position: 'middle',
+                  cssClass: 'error',
+                  duration: 2000
+                });
+                await toast.present();
+              }
+            );
           }
         }
       ]
@@ -76,9 +111,9 @@ export class RetraitPage implements OnInit {
       message: 'Please wait...',
     });
     await loading.present();
-    this.transaction.getTransaction(this.credentials.value).subscribe(
+    this.transaction.getTransaction(this.retrait.value).subscribe(
       async (data) => {
-        this.clientEnvoi= data.transaction.clientEnvoi;
+        this.clientEnvoi = data.transaction.clientEnvoi;
         this.clientRetrait = data.transaction.clientRetrait;
         this.dateEnvoi = data.transaction.dateEnvoi;
         this.montant = data.transaction.montant;

@@ -18,7 +18,11 @@
   <form [formGroup]="calculator" (ngSubmit)="afficherFrais()" >
     <ion-item>
       <ion-label position="floating">Type de transaction</ion-label>
-      <ion-input type="text" formControlName="depot"></ion-input>
+      <ion-select placeholder="Select One" formControlName="depot">
+        <ion-select-option value="depot">Dépôt</ion-select-option>
+        <ion-select-option value="retrait">Retrait</ion-select-option>
+      </ion-select>
+
     </ion-item>
 
     <ion-item>

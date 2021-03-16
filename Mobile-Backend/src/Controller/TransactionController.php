@@ -156,7 +156,7 @@ class TransactionController extends AbstractController
                 //On soustrait le montant à déposer et on ajoute la commission de depot dans le compte de l'agence pour l'ajouter au client 
                 $compte->setSolde($compte->getSolde()- $data['montant'] + $commisson['depot']);
              }else{
-                return  $this->json(['message'=> 'Impossible d\'effectuer ce transfert car le solde du compte est insuffisant']);
+                return  $this->json(['message'=> 'Impossible d\'effectuer ce transfert car le solde du compte est insuffisant'],404);
              }
             
         }else{
@@ -172,8 +172,7 @@ class TransactionController extends AbstractController
                //On recupère les infos du client qui a été désigné pour faire le retrait
                $clientRetrait = $transaction->getClientRetrait();
 
-               // Vérification et recupération du phone et du cni du client qui a été désigné pour faire le retrait si ça correspond à celui du client qui est venu faire le retrait
-            if($clientRetrait->getPhone() === $data['phone'] && $clientRetrait->getCni() === $data['cni']){
+
 
                 //on vérifie si la transaction n'a pas été retirée en testant si la date de retrait est nulle
                 if($transaction->getDateRetrait() == null){
@@ -183,19 +182,17 @@ class TransactionController extends AbstractController
 
                     //On set l'user qui a réalisé la transaction de retrait
                     $transaction->setUserRetrait($user);
-
+                    $clientRetrait->setCni($data['cni']);
                     $transaction->setDateRetrait(new \DateTime('now'));
                     $this->manager->flush();
                     return  $this->json(['message'=> 'Retrait  effectué avec succès!'], Response::HTTP_CREATED); 
                 }else{
-                    return  $this->json(['message'=> 'l\'argent a déja été retirée']); 
+                    return  $this->json(['message'=> 'l\'argent a déja été retirée'], 404);
                 }
                 
-            }else{
-                return  $this->json(['message'=> 'Veuillez revoir vos donnees !']); 
-            }
+
            }else{
-            return  $this->json(['message'=> 'Ce code de retrait n\'existe pas!']); 
+            return  $this->json(['message'=> 'Ce code de retrait n\'existe pas!'], 404);
            }
        }
 

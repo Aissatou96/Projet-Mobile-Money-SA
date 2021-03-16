@@ -34,15 +34,15 @@ export class DepotPage implements OnInit {
     this.depot = this.fb.group({
       montant: new FormControl('', Validators.required),
       clientEnvois: this.fb.group({
-          cni: new FormControl('', Validators.required),
-          lastname: new FormControl('', Validators.required),
-          firstname: new FormControl('', Validators.required),
-          phone: new FormControl('', Validators.required),
+          cni: new FormControl('123456789', Validators.required),
+          lastname: new FormControl('Cissé', Validators.required),
+          firstname: new FormControl('Amadou', Validators.required),
+          phone: new FormControl('778765432', Validators.required),
         }),
       clientRetraits: this.fb.group({
-          lastname: new FormControl('', Validators.required),
-          firstname: new FormControl('', Validators.required),
-          phone: new FormControl('', Validators.required),
+          lastname: new FormControl('Dione', Validators.required),
+          firstname: new FormControl('Moussa', Validators.required),
+          phone: new FormControl('778906543', Validators.required),
         })
 
     });
@@ -87,9 +87,10 @@ export class DepotPage implements OnInit {
               message: 'Please wait...',
             });
             await loading.present();
-            console.log(this.mytransaction);
+            //console.log(this.mytransaction);
             this.transaction.addTransaction(this.mytransaction).subscribe(
               async (data) => {
+                console.log(data);
                 await loading.dismiss();
                 const toast = await this.toastCtrl.create({
                   message: 'Succès.',
@@ -99,9 +100,9 @@ export class DepotPage implements OnInit {
                 await toast.present();
               },
               async (error) => {
-                console.log(error);
+                await loading.dismiss();
                 const toast = await this.toastCtrl.create({
-                  message: 'Your settings have been saved.',
+                  message: error.error.message,
                   position: 'middle',
                   cssClass: 'error',
                   duration: 2000

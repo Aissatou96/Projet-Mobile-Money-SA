@@ -12,8 +12,8 @@ url = 'http://127.0.0.1:8000/api';
     private http: HttpClient
   ) { }
 
-  addTransaction(transaction: Transaction): Observable<Transaction> {
-    return this.http.post<Transaction>(`${this.url}/transac`, transaction);
+  addTransaction(transaction: any): Observable<any> {
+    return this.http.post<any>(`${this.url}/transac`, transaction);
   }
   calculerFrais(value: any): Observable<any>{
     return  this.http.post(`${this.url}/transac/calcul`, value);
@@ -22,5 +22,9 @@ url = 'http://127.0.0.1:8000/api';
   getTransaction(value: any): Observable<any>{
     return  this.http.post(`${this.url}/transac/recup`, value);
   }
+
+  getSolde(): Observable<any>{
+  return  this.http.get<any>(`${this.url}/comptes/solde`);
+}
 
 }
