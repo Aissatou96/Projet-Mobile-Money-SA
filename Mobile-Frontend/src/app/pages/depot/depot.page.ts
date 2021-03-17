@@ -34,15 +34,15 @@ export class DepotPage implements OnInit {
     this.depot = this.fb.group({
       montant: new FormControl('', Validators.required),
       clientEnvois: this.fb.group({
-          cni: new FormControl('123456789', Validators.required),
-          lastname: new FormControl('Cissé', Validators.required),
-          firstname: new FormControl('Amadou', Validators.required),
-          phone: new FormControl('778765432', Validators.required),
+          cni: new FormControl('', Validators.required),
+          lastname: new FormControl('', Validators.required),
+          firstname: new FormControl('', Validators.required),
+          phone: new FormControl('', Validators.required),
         }),
       clientRetraits: this.fb.group({
-          lastname: new FormControl('Dione', Validators.required),
-          firstname: new FormControl('Moussa', Validators.required),
-          phone: new FormControl('778906543', Validators.required),
+          lastname: new FormControl('', Validators.required),
+          firstname: new FormControl('', Validators.required),
+          phone: new FormControl('', Validators.required),
         })
 
     });

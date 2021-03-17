@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button>
+        <ion-icon name="home-sharp" class="iconhome"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-thumbnail style="margin: 0 auto; ">
+      <ion-img src="../assets/img/logoSaMoney.jpeg" alt="logoSAMoney"></ion-img>
+    </ion-thumbnail>
+    <div class="annuler">
+      <p>Annulation de dépôt</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="annulationForm" (ngSubmit)="annulerDepot()">
+    <ion-item>
+      <ion-label position="floating">Id de la transaction</ion-label>
+      <ion-input type="number" formControlName="numero"></ion-input>
+    </ion-item>
+
+    <ion-button type="submit" [disabled]="!annulationForm.valid" expand="block">Annuler</ion-button>
+  </form>
+</ion-content>

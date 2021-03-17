@@ -42,7 +42,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                       },
  * 
  *  itemOperations={
- *                     "getTransac"={
+ *                     "get"={
  *                                  "method"="GET",
  *                                  "path"="/transac/{id}",
  *                                  "normalization_context"= {"groups"= {"one_transac_read"}}
@@ -55,7 +55,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * 
  *                      "deleteTransac"={
  *                                  "method"="DELETE",
- *                                  "path"="/transac/{id}"
+ *                                  "path"="/transac/{id}",
+ *                                  "route_name":"delTransac"
  *                               }
  *                 }
  * )

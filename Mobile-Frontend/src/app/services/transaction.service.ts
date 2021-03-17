@@ -25,6 +25,10 @@ url = 'http://127.0.0.1:8000/api';
 
   getSolde(): Observable<any>{
   return  this.http.get<any>(`${this.url}/comptes/solde`);
-}
+  }
+
+  annulerTransaction(id:number):Observable<any>{
+    return  this.http.delete<any>(`${this.url}/transac/${id}`);
+  }
 
 }

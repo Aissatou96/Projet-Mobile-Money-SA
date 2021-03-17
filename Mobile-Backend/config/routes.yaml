@@ -22,3 +22,6 @@ calculerFrais:
 getCode:
   path: /api/transac/recup
   controller: App\Controller\TransactionController::getTransac
+delTransac:
+  path: /api/transac/{id}
+  controller: App\Controller\TransactionController::deleteTransaction

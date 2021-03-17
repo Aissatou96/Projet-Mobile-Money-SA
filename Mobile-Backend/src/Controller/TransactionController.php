@@ -211,6 +211,8 @@ class TransactionController extends AbstractController
         return  $this->json(['Frais'=> $frais],200);
     }
 
+    /******************************************************************************************************* */
+
     public function getTransac(Request $request){
         $data = json_decode($request->getContent(), true);
         $result = array();
@@ -229,4 +231,32 @@ class TransactionController extends AbstractController
         }
         return  $this->json(['transaction'=> $result],200);
     }
+
+/************************************************************************************************************/
+
+public function deleteTransaction($id){
+    //Recuperation du code de transaction qu'on veut annuler
+    $transaction = $this->transactionRepository->findOneBy(['id'=>$id]);
+    if($transaction){
+    //Récupération de l'id de l'utilisateur connecté via son token
+    $userId = $this->tokenStorage->getToken()->getUser()->getId();
+     //On verifie si l'id de l'user qui veut annuler le dépôt est égal à l'id de l'user qui a fait le dépôt
+     if ($userId == $transaction->getUserDepot()->getId()) {
+        //si oui on recupère le compte dans lequel le dépot a été fait
+         $compte = $transaction->getCompte();
+         //On vérifie si la transaction a été retirée ou pas?
+         if($transaction->getDateRetrait()==''){
+            $compte->setSolde($compte->getSolde() - $transaction->getMontant());
+            $this->manager->remove($transaction);
+            $this->manager->flush();
+            return  $this->json(['message'=> 'Dépot annulé avec succès'], 200);
+
+         }else{
+            return  $this->json(['message'=> 'La transaction a été déjà retirée, impossible de l\'annuler'], 404);
+         }
+     }
+    }else{
+        return  $this->json(['message'=> 'La transaction n\'existe pas'],404);
+    }
+}
 }

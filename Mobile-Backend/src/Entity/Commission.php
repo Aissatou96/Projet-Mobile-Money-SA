@@ -2,11 +2,24 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CommissionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CommissionRepository::class)
+ * @ApiResource(
+ *     collectionOperations={
+ *                              "getCommissions"={
+ *                                      "method"="POST",
+ *                                      "path"="/commission",
+ *                                      "route_name":"addingCompte"
+ *                                    }
+ *                          },
+ *      itemOperations={
+                            "get"={}
+ *                  }
+ * )
  */
 class Commission
 {

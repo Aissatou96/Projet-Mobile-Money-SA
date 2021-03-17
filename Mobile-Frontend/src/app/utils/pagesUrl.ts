@@ -86,9 +86,15 @@ export const PagesAdmin: any = [
 
 export const PagesUser: any = [
   {
-    title: 'Dépot',
+    title: 'Dépôt',
     tabName: 'depot',
     url: '/depot',
+    iconName: 'return-up-forward-outline',
+  },
+  {
+    title: 'Annuler Dépôt',
+    tabName: 'annulationForm',
+    url: 'annulation-depot',
     iconName: 'return-up-forward-outline',
   },
   {

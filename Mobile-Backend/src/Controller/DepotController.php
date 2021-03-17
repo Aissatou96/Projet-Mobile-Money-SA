@@ -77,7 +77,7 @@ class DepotController extends AbstractController
 
                     $em->remove($depot);
                     $em->flush();
-                    return  $this->json(['message'=> 'Annulation effectuée avec succès']);
+                    return  $this->json(['message'=> 'Annulation effectuée avec succès'], 200);
                }else{
                 return  $this->json(['message'=> 'Annulation impossible car le solde du compte est insuffissant']);
                }

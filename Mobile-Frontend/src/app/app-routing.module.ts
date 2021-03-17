@@ -59,6 +59,10 @@ const routes: Routes = [
     path: 'retrait',
     loadChildren: () => import('./pages/retrait/retrait.module').then( m => m.RetraitPageModule)
   },
+  {
+    path: 'annulation-depot',
+    loadChildren: () => import('./pages/annulation-depot/annulation-depot.module').then( m => m.AnnulationDepotPageModule)
+  },
 
 ];
 
