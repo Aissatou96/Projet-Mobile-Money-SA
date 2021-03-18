@@ -7,6 +7,12 @@ export interface Transaction{
   code: string;
 }
 
+export class Transactions{
+  transactions:[];
+  data:[];
+
+}
+
 export interface Client{
   cni: string;
   lastname: string;

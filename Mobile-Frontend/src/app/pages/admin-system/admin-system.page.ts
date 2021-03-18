@@ -3,6 +3,7 @@ import {PagesAdmin, PagesUser} from '../../utils/pagesUrl';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../services/authentication.service';
 import {TransactionService} from '../../services/transaction.service';
+import {AlertController, LoadingController, ToastController} from '@ionic/angular';
 
 @Component({
   selector: 'app-admin-system',
@@ -15,7 +16,13 @@ pagesU: any = [];
 today: Date = new Date();
 role: string;
 solde = 0;
-  constructor(private router: Router, authService: AuthenticationService, private transactionService: TransactionService) {
+  constructor(private router: Router,
+              private authService: AuthenticationService,
+              private transactionService: TransactionService,
+              private alertController: AlertController,
+              private loadingController: LoadingController,
+              private toastController: ToastController
+            ) {
     this.pagesA = PagesAdmin;
     this.pagesU = PagesUser;
     this.role = authService.getRole();
@@ -35,7 +42,33 @@ solde = 0;
     this.router.navigateByUrl(url);
   }
 
-  logout() {
-    console.log('vous etes deconnecter');
+  async logout() {
+    console.log('deconnexion');
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm!',
+      message: 'Êtes-vous sûr de vous déconnecter?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Confirmer',
+          handler: async () => {
+            const loading = await this.loadingController.create({
+              message: 'Please wait...',
+            });
+            await loading.present();
+           this.router.navigateByUrl('/login');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+
   }
 }

@@ -15,27 +15,28 @@
 </ion-header>
 
 <ion-content>
-  <ion-text color="dark">
-    <h5>Transaction</h5>
-  </ion-text>
+  <ion-segment>
+    <ion-segment-button (click)="next()">
+      <ion-label>Transactions</ion-label>
+    </ion-segment-button>
+    <ion-segment-button (click)="previous()" *ngIf="[role]=='ROLE_AdminSystem'">
+      <ion-label>Les transactions</ion-label>
+    </ion-segment-button>
+  </ion-segment>
   <ion-grid>
     <ion-row>
-      <ion-col>Users<ion-icon name="caret-down-outline"></ion-icon></ion-col>
-      <ion-col>Type</ion-col>
-      <ion-col>Du</ion-col>
-      <ion-col>Au</ion-col>
+      <ion-col size="4">Date</ion-col>
+      <ion-col size="4">Type</ion-col>
+      <ion-col size="4">Montant</ion-col>
+    </ion-row>
+    <ion-row tappable (click)="afficherTransaction(transaction)" *ngFor="let transaction of transactions | keyvalue">
+      <ion-col size="4">{{transaction?.value.date}}</ion-col>
+      <ion-col size="4">{{transaction?.value.type}}</ion-col>
+      <ion-col size="4">{{transaction?.value.montant}}</ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="2">Date</ion-col>
-      <ion-col size="3">Utilisateurs</ion-col>
-      <ion-col size="2">Type</ion-col>
-      <ion-col size="3">Montant</ion-col>
-      <ion-col size="2">Frais</ion-col>
-    </ion-row>
-  </ion-grid>
+
 
   <ion-grid>
     <ion-row>

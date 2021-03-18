@@ -75,13 +75,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"users_read", "comptes_read"})
+     * @Groups({"users_read", "comptes_read", "transac_read"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"users_read""comptes_read", })
+     * @Groups({"users_read","comptes_read", "transac_read"})
      */
     private $lastname;
 

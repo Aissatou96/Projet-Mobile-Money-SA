@@ -37,15 +37,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                          "getCode"={
  *                                      "method"="POST",
  *                                      "path"="/transac/recup",
- *                                      "route_name":"getTransac"
+ *                                      "route_name":"getCode"
  *                                    },
  *                       },
  * 
  *  itemOperations={
- *                     "get"={
+ *                     "getTransac"={
  *                                  "method"="GET",
- *                                  "path"="/transac/{id}",
- *                                  "normalization_context"= {"groups"= {"one_transac_read"}}
+ *                                  "path"="/transac/{id}"
  *                               },
  * 
  *                      "updateTransac"={
@@ -72,7 +71,7 @@ class Transaction
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"transac_write"})
+     * @Groups({"transac_write", "transac_read"})
      */
     private $montant;
 
@@ -83,16 +82,19 @@ class Transaction
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"transac_read"})
      */
     private $dateDepot;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"transac_read"})
      */
     private $dateRetrait;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"transac_read"})
      */
     private $frais;
 
@@ -103,11 +105,13 @@ class Transaction
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transactions")
+     * @Groups({"transac_read"})
      */
     private $userRetrait;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transactions")
+     * @Groups({"transac_read"})
      */
     private $userDepot;
 
@@ -142,6 +146,12 @@ class Transaction
      * @ORM\Column(type="float")
      */
     private $commissionRetrait;
+
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateAnnulation;
 
     public function getId(): ?int
     {
@@ -312,6 +322,19 @@ class Transaction
     public function setCommissionRetrait(float $commissionRetrait): self
     {
         $this->commissionRetrait = $commissionRetrait;
+
+        return $this;
+    }
+
+
+    public function getDateAnnulation(): ?\DateTimeInterface
+    {
+        return $this->dateAnnulation;
+    }
+
+    public function setDateAnnulation(?\DateTimeInterface $dateAnnulation): self
+    {
+        $this->dateAnnulation = $dateAnnulation;
 
         return $this;
     }
