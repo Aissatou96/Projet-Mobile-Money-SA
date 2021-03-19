@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Constraints\Date;
 
 class TransactionController extends AbstractController
 {
@@ -175,7 +176,7 @@ class TransactionController extends AbstractController
 
 
                 //on vérifie si la transaction n'a pas été retirée en testant si la date de retrait est nulle
-                if($transaction->getDateRetrait() == null){
+                if($transaction->getDateRetrait() == null && $transaction->getDateAnnulation() == null){
 
                     //On ajoute le montant à retirer dans le compte de l'agence + commmission retrait
                     $compte->setSolde($compte->getSolde()+ $transaction->getMontant()+ $transaction->getCommissionRetrait());
@@ -187,7 +188,7 @@ class TransactionController extends AbstractController
                     $this->manager->flush();
                     return  $this->json(['message'=> 'Retrait  effectué avec succès!'], Response::HTTP_CREATED); 
                 }else{
-                    return  $this->json(['message'=> 'l\'argent a déja été retirée'], 404);
+                    return  $this->json(['message'=> 'l\'argent a déja été retirée ou bien la transaction a été anulée'], 404);
                 }
                 
 
@@ -245,9 +246,9 @@ public function deleteTransaction($id){
         //si oui on recupère le compte dans lequel le dépot a été fait
          $compte = $transaction->getCompte();
          //On vérifie si la transaction a été retirée ou pas?
-         if($transaction->getDateRetrait()==''){
+         if($transaction->getDateRetrait()==null){
             $compte->setSolde($compte->getSolde() - $transaction->getMontant());
-            $this->manager->remove($transaction);
+            $transaction->setDateAnnulation(new \DateTime('now'));
             $this->manager->flush();
             return  $this->json(['message'=> 'Dépot annulé avec succès'], 200);
 

@@ -14,30 +14,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col>Type<ion-icon name="caret-down-outline"></ion-icon></ion-col>
-      <ion-col>Du<ion-icon name="caret-down-outline"></ion-icon></ion-col>
-      <ion-col>Au<ion-icon name="caret-down-outline"></ion-icon></ion-col>
-    </ion-row>
-  </ion-grid>
-
+<ion-content *ngIf="[role]=='ROLE_AdminSystem'">
   <ion-grid>
     <ion-row>
       <ion-col>Date</ion-col>
       <ion-col>Type</ion-col>
       <ion-col>Montant</ion-col>
     </ion-row>
-  </ion-grid>
-
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-
-      </ion-col>
+    <ion-row *ngFor="let transaction of transactions | keyvalue">
+      <ion-col>{{transaction?.value.date}}</ion-col>
+      <ion-col>{{transaction?.value.type}}</ion-col>
+      <ion-col>{{transaction?.value.TotalCommission}}</ion-col>
     </ion-row>
   </ion-grid>
-
 
 </ion-content>
