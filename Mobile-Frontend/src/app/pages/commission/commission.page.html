@@ -22,9 +22,9 @@
       <ion-col>Montant</ion-col>
     </ion-row>
     <ion-row *ngFor="let transaction of transactions | keyvalue">
-      <ion-col>{{transaction?.value.date}}</ion-col>
-      <ion-col>{{transaction?.value.type}}</ion-col>
-      <ion-col>{{transaction?.value.TotalCommission}}</ion-col>
+      <ion-col>{{transaction.value?.date}}</ion-col>
+      <ion-col>{{transaction.value?.type}}</ion-col>
+      <ion-col>{{transaction.value?.TotalCommission}}</ion-col>
     </ion-row>
   </ion-grid>
 

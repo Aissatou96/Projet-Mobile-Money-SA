@@ -21,8 +21,9 @@
         <ion-card><ion-card-content>
           <ion-label>Mon sole disponible</ion-label>
           <ion-item>
-            <ion-label>{{solde}}CFA</ion-label>
-            <ion-icon name="eye-off-outline" slot="end"></ion-icon>
+            <ion-label *ngIf="cacher">{{solde}}CFA</ion-label>
+            <ion-icon tappable (click)="afficher()" *ngIf="cacher" name="eye" slot="end"></ion-icon>
+            <ion-icon tappable (click)="afficher()" *ngIf="!cacher"  name="eye-off-outline" slot="end"></ion-icon>
           </ion-item>
           <ion-label>mise à jour le {{ today | date: "dd/MM/yyyy à H:mm:ss" }} </ion-label>
         </ion-card-content>

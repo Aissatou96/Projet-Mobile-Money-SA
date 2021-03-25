@@ -16,6 +16,7 @@ pagesU: any = [];
 today: Date = new Date();
 role: string;
 solde = 0;
+cacher = true;
   constructor(private router: Router,
               private authService: AuthenticationService,
               private transactionService: TransactionService,
@@ -70,5 +71,9 @@ solde = 0;
 
     await alert.present();
 
+  }
+
+  afficher(){
+  this.cacher = !this.cacher;
   }
 }
