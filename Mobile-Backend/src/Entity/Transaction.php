@@ -130,22 +130,22 @@ class Transaction
     /**
      * @ORM\Column(type="float")
      */
-    private $commissionEtat;
+    private $commissionEtat=0;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $CommissionTransfert;
+    private $CommissionTransfert=0;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $commissionDepot;
+    private $commissionDepot=0;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $commissionRetrait;
+    private $commissionRetrait=0;
 
 
     /**
